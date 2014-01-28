@@ -21,4 +21,6 @@
 1.2 sudo make install
 /usr/local/hi-brain下にヘッダとライブラリが作成される
 2. コンポーネントのsrc/CMakeLists.txtを編集する
-(https://github.com/hi-brain/model_format/blob/master/src/CMakeLists.txt)を参照  
+以下を参照
+https://github.com/hi-brain/model_format/blob/master/src/CMakeLists.txt
+  
