@@ -1,35 +1,24 @@
 ﻿「RTC::CameraImage <-> cv::Mat」，「cv::Mat <-> mwArray」を「>>」および「<<」演算子で相互変換するライブラリ  
   
-動作環境  
-・Windows 7 64bit  
-・Visual Studio 2010 Professional  
+動作環境    
 ・OpenCV 2.4.5  
 ・OpenRTM 1.1 64bit  
-・MATLAB Compiler Runtime R2012b (8.0)  
+・MATLAB Compiler Runtime R2013a 
   
 中身  
 ・ヘッダファイル  
---convert_template.h  
+--hi_convert.h  
 ・ソースファイル  
---convert_template.cpp  
-・Release用  
---libconvert100.dll  
---libconvert100.exp  
---libconvert100.lib  
-・Debug用  
---libconvert100d.dll  
---libconvert100.exp  
---libconvert100.lib  
+--hi_convert.cpp  
+・ライブラリ  
+--libhi_convert.so
+--libhi_convert.so.1
+--libhi_convert.so.1.0.0
   
-使い方  
-1. convert_template.hへのインクルードパスを設定する  
-2. libconvert100d.libまたはlibconvert100.libへのライブラリパスを設定する  
-3. 使用したいソースコードファイル内でconvert_template.hをインクルードする  
-  
-*Debugの場合  
-4. libconvert100d.libとリンクする  
-5. 実行ファイルと同じフォルダにlibconvert100d.dll，libconvert100d.expをコピーする  
-  
-*Releaseの場合  
-4. libconvert100.libとリンクする  
-5. 実行ファイルと同じフォルダにlibconvert100.dll，libconvert100.expをコピーする  
+使い方(Linux)
+1. CMakeLists.txtのあるディレクトリに移動
+1.1 cmake .
+1.2 sudo make install
+/usr/local/hi-brain下にヘッダとライブラリが作成される
+2. コンポーネントのsrc/CMakeLists.txtを編集する
+https://github.com/hi-brain/model_format/blob/master/src/CMakeLists.txtを参照  
