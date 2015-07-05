@@ -1,4 +1,0 @@
-/usr/local/hi-brain/lib/libhi_convert.so.1.0.0
-/usr/local/hi-brain/lib/libhi_convert.so.1
-/usr/local/hi-brain/lib/libhi_convert.so
-/usr/local/hi-brain/include/hi_convert.h
