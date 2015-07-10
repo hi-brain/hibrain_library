@@ -1,4 +1,4 @@
-# Install script for directory: /home/hi-brain/workspace/hi_convert
+# Install script for directory: /home/hi-brain/libhi_convert
 
 # Set the install prefix
 IF(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,12 +45,18 @@ IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspeci
            RPATH "")
     ENDIF()
   ENDFOREACH()
-  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
    "/usr/local/hi-brain/lib/libhi_convert.so.1.0.0;/usr/local/hi-brain/lib/libhi_convert.so.1;/usr/local/hi-brain/lib/libhi_convert.so")
+  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
 FILE(INSTALL DESTINATION "/usr/local/hi-brain/lib" TYPE SHARED_LIBRARY FILES
-    "/home/hi-brain/workspace/hi_convert/libhi_convert.so.1.0.0"
-    "/home/hi-brain/workspace/hi_convert/libhi_convert.so.1"
-    "/home/hi-brain/workspace/hi_convert/libhi_convert.so"
+    "/home/hi-brain/libhi_convert/libhi_convert.so.1.0.0"
+    "/home/hi-brain/libhi_convert/libhi_convert.so.1"
+    "/home/hi-brain/libhi_convert/libhi_convert.so"
     )
   FOREACH(file
       "$ENV{DESTDIR}/usr/local/hi-brain/lib/libhi_convert.so.1.0.0"
@@ -69,9 +75,21 @@ FILE(INSTALL DESTINATION "/usr/local/hi-brain/lib" TYPE SHARED_LIBRARY FILES
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  list(APPEND CPACK_ABSOLUTE_DESTINATION_FILES
-   "/usr/local/hi-brain/include/hi_convert.h")
-FILE(INSTALL DESTINATION "/usr/local/hi-brain/include" TYPE FILE FILES "/home/hi-brain/workspace/hi_convert/hi_convert.h")
+  list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
+   "/usr/local/hi-brain/include/hi_convert.h;/usr/local/hi-brain/include/hi_model_template.h;/usr/local/hi-brain/include/hi_viewer_template.h;/usr/local/hi-brain/include/hi_matviewer.h;/usr/local/hi-brain/include/hi_matviewer3d.h")
+  IF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
+  IF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+    message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
+  ENDIF (CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
+FILE(INSTALL DESTINATION "/usr/local/hi-brain/include" TYPE FILE FILES
+    "/home/hi-brain/libhi_convert/include/hi_convert.h"
+    "/home/hi-brain/libhi_convert/include/hi_model_template.h"
+    "/home/hi-brain/libhi_convert/include/hi_viewer_template.h"
+    "/home/hi-brain/libhi_convert/include/hi_matviewer.h"
+    "/home/hi-brain/libhi_convert/include/hi_matviewer3d.h"
+    )
 ENDIF(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
 
 IF(CMAKE_INSTALL_COMPONENT)
@@ -80,7 +98,7 @@ ELSE(CMAKE_INSTALL_COMPONENT)
   SET(CMAKE_INSTALL_MANIFEST "install_manifest.txt")
 ENDIF(CMAKE_INSTALL_COMPONENT)
 
-FILE(WRITE "/home/hi-brain/workspace/hi_convert/${CMAKE_INSTALL_MANIFEST}" "")
+FILE(WRITE "/home/hi-brain/libhi_convert/${CMAKE_INSTALL_MANIFEST}" "")
 FOREACH(file ${CMAKE_INSTALL_MANIFEST_FILES})
-  FILE(APPEND "/home/hi-brain/workspace/hi_convert/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
+  FILE(APPEND "/home/hi-brain/libhi_convert/${CMAKE_INSTALL_MANIFEST}" "${file}\n")
 ENDFOREACH(file)

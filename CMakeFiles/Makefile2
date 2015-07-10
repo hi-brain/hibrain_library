@@ -43,11 +43,17 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# Escaping for special characters.
+EQUALS = =
+
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hi-brain/workspace/hi_convert
+CMAKE_SOURCE_DIR = /home/hi-brain/libhi_convert
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hi-brain/workspace/hi_convert
+CMAKE_BINARY_DIR = /home/hi-brain/libhi_convert
 
 #=============================================================================
 # Target rules for target CMakeFiles/hi_convert.dir
@@ -56,7 +62,7 @@ CMAKE_BINARY_DIR = /home/hi-brain/workspace/hi_convert
 CMakeFiles/hi_convert.dir/all:
 	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/depend
 	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/build
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hi-brain/workspace/hi_convert/CMakeFiles  1
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hi-brain/libhi_convert/CMakeFiles  1 2 3
 	@echo "Built target hi_convert"
 .PHONY : CMakeFiles/hi_convert.dir/all
 
@@ -66,9 +72,9 @@ all: CMakeFiles/hi_convert.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/hi_convert.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hi-brain/workspace/hi_convert/CMakeFiles 1
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hi-brain/libhi_convert/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/hi_convert.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hi-brain/workspace/hi_convert/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hi-brain/libhi_convert/CMakeFiles 0
 .PHONY : CMakeFiles/hi_convert.dir/rule
 
 # Convenience name for target.

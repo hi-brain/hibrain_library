@@ -1,0 +1,42 @@
+BasicInfo:
+  name: vm_cvRetina
+  category: 
+  version: 1.0.0
+  vendor: kazuki urabe
+Dataports:
+  input:
+    portType: DataInPort
+    type: Vision::Matrix
+    variableName: input
+    position: LEFT
+  parvo:
+    portType: DataOutPort
+    type: Vision::Matrix
+    variableName: parvo
+    position: RIGHT
+    Viewer: MatViewer
+  magno:
+    portType: DataOutPort
+    type: Vision::Matrix
+    variableName: magno
+    position: RIGHT
+    Viewer: MatViewer
+ConfigurationSet:
+  log_sampling:
+    type: int
+    defaultValue: 0:OFF
+    variableName: log_sampling
+    unit: 
+    constraint: (1:ON,0:OFF)
+    detail: 
+    widget: radio
+Code:
+  lang: C++
+  srcs:
+    - cv_retina.cpp
+  hdrs:
+    - cv_retina.h
+  cflags:
+  libs:
+  ModelBase: VModelBase
+  classname: hi::cvRetina

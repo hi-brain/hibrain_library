@@ -1,0 +1,40 @@
+BasicInfo:
+  name: vm_kernel
+  category: 
+  version: 1.0.0
+  vendor: kazuki urabe
+Dataports:
+  kernel:
+    portType: DataOutPort
+    type: Vision::Matrix
+    variableName: kmat
+    position: RIGHT
+    Viewer: MatViewer3d
+    Action: onActivated
+ConfigurationSet:
+  dimension:
+    type: std::string
+    defaultValue: "X"
+    variableName: dimension
+    unit: 
+    constraint: "(X,Y,T)"
+    detail: 
+    widget: radio
+  type:
+    type: std::string
+    defaultValue: "Sobel"
+    variableName: type
+    unit: 
+    constraint: "(Sobel,Gabor)"
+    detail: 
+    widget: radio
+Code:
+  lang: C++
+  srcs:
+    - kernel.cpp
+  hdrs:
+    - kernel.h
+  cflags:
+  libs:
+  ModelBase: VModelBase
+  classname: hi::kernel3d

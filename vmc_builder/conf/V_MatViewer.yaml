@@ -1,0 +1,11 @@
+hdr: hi_matviewer.h
+classname: hi::MatViewer
+objectName: matviewer
+ConfigurationSet:
+  viewer:
+    type: int
+    defaultValue: "0:OFF"
+    variableName: view
+    unit:
+    constraint: "(1:ON,0:OFF)"
+    widget: radio

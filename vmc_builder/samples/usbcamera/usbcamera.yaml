@@ -1,0 +1,31 @@
+BasicInfo:
+  name: usbcamera
+  category: 
+  version: "1.0.0"
+  vendor: kazuki urabe
+Dataports:
+  output:
+    portType: DataOutPort
+    type: Vision::Matrix
+    variableName: output
+    position: RIGHT
+    Viewer: MatViewer
+ConfigurationSet:
+  device_num:
+    type: int
+    defaultValue: "0"
+    variableName: device_num
+    unit: 
+    constraint: 
+    detail: 
+    widget: text
+Code:
+  lang: C++
+  srcs:
+    - hi_usbcamera.cpp
+  hdrs:
+    - hi_usbcamera.h
+  cflags:
+  libs:
+  ModelBase: VModelBase
+  classname: hi::usbcamera

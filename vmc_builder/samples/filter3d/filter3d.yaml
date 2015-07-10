@@ -1,0 +1,33 @@
+BasicInfo:
+  name: vm_filter3d
+  category: 
+  version: 1.0.0
+  vendor: kazuki urabe
+Dataports:
+  kernel:
+    portType: DataInPort
+    type: Vision::Matrix
+    variableName: kmat
+    position: RIGHT
+    Action: onActivated
+  input:
+    portType: DataInPort
+    type: Vision::Matrix
+    variableName: input
+    position: LEFT
+  output:
+    portType: DataOutPort
+    type: Vision::Matrix
+    variableName: output
+    position: RIGHT
+    Viewer: MatViewer
+Code:
+  lang: C++
+  srcs:
+    - filter3d.cpp
+  hdrs:
+    - filter3d.h
+  cflags:
+  libs:
+  ModelBase: VModelBase
+  classname: hi::filter3d

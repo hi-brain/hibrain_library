@@ -1,0 +1,467 @@
+#!/usr/bin/python
+# -*- encoding: utf-8 -*-
+#  @file rtc-create
+#  @brief RTComponent for hi-brain source code generator
+#  @date $Date: 2014-10-09 07:19:15 $
+#  @author attsms
+
+from jinja2 import Environment, FileSystemLoader
+from calendar import Calendar
+import datetime
+from lxml import etree
+import re
+import os
+import getopt
+import sys
+import time
+import yaml
+import shutil
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
+
+#basedir = os.path.dirname(os.path.abspath(__file__))
+basedir  = "/usr/local/vmc_builder"
+tmplsdir = basedir + "/tmpl"
+filesdir = basedir + "/files"
+confdir  = basedir + "/conf"
+nsmap={
+	"rtcExt":"http://www.openrtp.org/namespaces/rtc_ext", 
+	"rtcDoc":"http://www.openrtp.org/namespaces/rtc_doc",
+	"rtc":"http://www.openrtp.org/namespaces/rtc",
+	"xsi":"http://www.w3.org/2001/XMLSchema-instance"
+	}
+
+xmlRule={
+	"BasicInfo":{
+		"type" : "{%s}type" % nsmap['xsi'],
+		"project" : "{%s}saveProject" % nsmap['rtcExt'],
+		"updateDate" : "{%s}updateDate" % nsmap['rtc'],
+		"creationDate" : "{%s}creationDate" % nsmap['rtc'],
+		"version" : "{%s}version" % nsmap['rtc'],
+		"vendor" : "{%s}vendor" % nsmap['rtc'],
+		"maxInstances" : "{%s}maxInstances" % nsmap['rtc'],
+		"executionType" : "{%s}executionType" % nsmap['rtc'],
+		"executionRate" : "{%s}executionRate" % nsmap['rtc'],
+		"description" : "{%s}description" % nsmap['rtc'],
+		"category" : "{%s}category" % nsmap['rtc'],
+		"componentKind" : "{%s}componentKind" % nsmap['rtc'],
+		"activityType" : "{%s}activityType" % nsmap['rtc'],
+		"componentType" : "{%s}componentType" % nsmap['rtc'],
+		"name" : "{%s}name" % nsmap['rtc']
+		}
+	}
+ProfileTemplate={
+	"lang" : "",
+	"project" : "",
+	'BasicInfo' : {
+		"name" : "",
+		"vendor" : "",
+		"category" : "",
+		"version":"",
+		"type" : "",
+		"updateDate" : "",
+		"creationDate" : "",
+		"maxInstances" : "",
+		"executionType" : "",
+		"executionRate" : "",
+		"description" : "",
+		"componentKind" : "",
+		"activityType" : "",
+		"componentType" : "",
+		},
+	"Actions" : {
+		"onInitialize" : "false",
+		"onFinalize" : "false",
+		"onStartup": "false",
+		"onShutdown": "false",
+		"onActivated": "false",
+		"onDeactivated": "false",
+		"onAborting": "false",
+		"onError": "false",
+		"onReset": "false",
+		"onExecute": "false",
+		"onStateUpdate": "false",
+		"onRateChanged": "false",
+		"onAction": "false",
+		"onModeChanged": "false"
+		},
+	"ConfigurationSet" : {},
+	"Dataports" : {},
+	"Code" : {
+		"lang" : "",
+		"srcs" : [],
+		"hdrs" : [],
+		"cflags" : "",
+		"libs" : "",
+		"class_name" : "",
+		"param_name" : "",
+		"includes" : []
+		},
+	"Objects" : {},
+	"Flags" : []
+	}
+
+#def set_modelbase(modelbase):
+#	self.profile['ModelBase'] = modelbase
+#	if self.profile['ModelBase'] == "VModelBase":
+#		
+#	elif self.profile['ModelBase'] == "VModel":
+#		self.profile["Dataports"] = {
+#			"input" : {
+#				"portType":"DataInPort",
+#				"type":"Vision::Image",
+#				"variableName":"input",
+#				"position":"LEFT",
+#				},
+#			"output" : {
+#				"portType":"DataOutPort",
+#				"type":"Vision::Image",
+#				"variableName":"output",
+#				"position":"RIGHT",
+#				}
+#			}
+#	elif self.profile['ModelBase'] == "VStimulus":
+#		self.profile["Dataports"] = {
+#			"output" : {
+#				"portType":"DataOutPort",
+#				"type":"Vision::Image",
+#				"variableName":"output",
+#				"position":"RIGHT",
+#				}
+#			}
+#	else:
+#		print "Error: Unknown ModelBase:", profile_in['ModelBase']
+#		sys.exit(-1)
+
+def usage():
+	print """
+Usage: vmc-builder [OPTIONS] [YAMLFILE]
+
+Options:
+
+    [-h or --help]                     Print help.
+    [-d [dirname] or --dir [dirname]]  Directory name to create
+    [-o]                               Print YAML to standard output
+    [--debug]                          Create Source code for debug
+
+"""
+
+
+def constraint_detail(constraint):
+	ret = {}
+	# null
+	if not constraint:
+		return ret
+	constraint = constraint.replace(' ','')
+	# 列挙型
+	sch = re.match(r'^\((.*)\)$',constraint)
+	if sch:
+		ret['type'] = 'enum'
+		ret['constraint'] = sch.group(1).split(",")
+		return ret
+	# Hash型
+	sch = re.match(r'^\{(.*)\}$',constraint)
+	if sch:
+		ret['type'] = 'hash'
+		ret['constraint'] = {}
+		for cststr in sch.group(1).split(","):
+			cstkeyval = cststr.split(":")
+			ret['constraint'][cstkeyval[0]] = cstkeyval[1]
+		return ret
+	# 範囲指定 (between)
+	sch = re.matchq(r'^([0-9\.]+)<=x<=([0-9\.]+)$',constraint)
+	if sch:
+		ret['type'] = 'between'
+		ret["constraint"]={
+					"lower":sch.group(1),
+					"upper":sch.group(2)
+					}
+		return ret
+	# 範囲指定 (normal)
+	sch = re.match(r'^(([0-9\.]+)(<=|<))*x((<=|<)([0-9\.]+))$',constraint)
+	if sch:
+		ret['type'] = 'bounds'
+		ret["constraint"] = {}
+		if sch.group(3)=="<=":
+			ret["constraint"]["GreaterThanOrEqualTo"] = sch.group(2)
+		if sch.group(3)=="<":
+			ret["constraint"]["GreaterThan"] = sch.group(2)
+		if sch.group(5)=="<=":
+			ret["constraint"]["LessThanOrEqualTo"] = sch.group(6)
+		if sch.group(5)=="<":
+			ret["constraint"]["LessThan"] = sch.group(6)
+	# List型
+	cstlist = constraint.split(",")
+	if len(cstlist) > 1:
+		ret['type'] = 'list'
+		ret['constraint'] = cstlist
+	return ret
+	
+#-------------------------------------------------------------------
+# codeGenerator
+#-------------------------------------------------------------------
+class codeGenerator:
+	__slots__ = ("profile", "add_code")
+	def __init__(self):
+		self.profile = ProfileTemplate
+		self.readyaml(confdir+"/default.yaml")
+		self.add_code = { "srcs":{}, "hdrs":{} }
+		return
+
+	def readxml(xml_fname):
+		# 面倒くさいので保留
+		return
+	
+	def writeyaml(self):
+		print yaml.dump(self.profile, encoding='utf-8', allow_unicode=True, default_flow_style=False)
+		return
+	
+	def readyaml(self, config_fname):
+		profile_in = yaml.load(open(config_fname).read().decode('utf-8'))
+		
+		if 'lang' in profile_in:
+			self.profile['lang'] = profile_in['lang']
+		
+		if 'project' in profile_in:
+			self.profile['project'] = profile_in['project']
+		
+		if 'Code' in profile_in:
+			for key, val in profile_in['Code'].items():
+				self.profile['Code'][key] = val
+			for hdr in self.profile['Code']['hdrs']:
+				if hdr not in self.profile['Code']['includes']:
+					self.profile['Code']['includes'].append(hdr)
+			
+		if 'Actions' in profile_in:
+			for key, val in profile_in['Actions'].items():
+				self.profile['Actions'][key] = val
+		
+		if 'BasicInfo' in profile_in:
+			for key, val in profile_in['BasicInfo'].items():
+				self.profile['BasicInfo'][key] = val
+
+		if 'Dataports' in profile_in:
+			for name, ary in profile_in['Dataports'].items():
+				self.profile['Dataports'][name] = ary
+				if not 'variableName' in ary:
+					print "Error: 'variableName' is need for "+name+"."
+					sys.exit(-1)
+				if 'Viewer' in ary:
+					conf_path=confdir+"/V_"+ary['Viewer']+".yaml"
+					if os.path.exists(conf_path):
+						v_config = yaml.load(open(conf_path).read().decode('utf-8'))
+						v_objectName = v_config['objectName']+"_"+ary['variableName']
+						for v_name, v_ary in v_config['ConfigurationSet'].items():
+							v_name = v_name+"_"+name
+							v_ary['objectName'] = v_objectName
+							self.profile['ConfigurationSet'][v_name] = v_ary
+						if v_config['hdr'] not in self.profile['Code']['includes']:
+							self.profile['Code']['includes'].append(v_config['hdr'])
+						if 'Dataports' in v_config:
+							for v_name, v_ary in v_config['Dataports'].items():
+								v_name = v_name+"_"+name
+								v_ary['objectName'] = v_config['objectName']+"_"+ary['variableName']
+								self.profile['Dataports'][v_name] = v_ary
+						self.profile['Dataports'][name]['classname'] = v_config['classname']
+						self.profile['Dataports'][name]['v_objectName'] = v_objectName
+						self.profile['Objects'][v_objectName] = v_config['classname']
+					else:
+						print "Error: 'Not found"+conf_path
+						sys.exit(-1)
+		
+		if 'ConfigurationSet' in profile_in:
+			for name, ary in profile_in['ConfigurationSet'].items():
+				self.profile['ConfigurationSet'][name] = ary
+				if not 'variableName' in ary:
+					print "Error: 'variableName' is need for "+name+"."
+					sys.exit(-1)
+				self.profile['ConfigurationSet'][name]['variableName'] = ary['variableName']
+				self.profile['ConfigurationSet'][name]['objectName'] = 'model'
+		return
+	
+	def profileReduct(self):
+		# profileの不備修正
+		# module_name, project
+		self.profile['BasicInfo']["name"] = re.sub(r'\W+', '', self.profile['BasicInfo']["name"].replace(' ', '_'))
+		if not self.profile['project']:
+			self.profile['project'] = self.profile['BasicInfo']['name']
+		# date
+		# ConfigurationSet -> variableName, defaultValue_s, constraint_detail
+		for name, ary in self.profile["ConfigurationSet"].items():
+			if not self.profile["ConfigurationSet"][name]["variableName"]:
+				self.profile["ConfigurationSet"][name]["variableName"] = name
+			self.profile["ConfigurationSet"][name]["variableName"] = re.sub(r'\W+', '', self.profile["ConfigurationSet"][name]["variableName"].replace(' ', '_'))
+			#self.profile["ConfigurationSet"][name]["defaultValue_s"] = re.sub(r':.*','',self.profile["ConfigurationSet"][name]["defaultValue_s"])
+			self.profile["ConfigurationSet"][name]["detail"] = constraint_detail(self.profile["ConfigurationSet"][name]["constraint"])
+		# Dataports -> variableName
+		for name, ary in self.profile["Dataports"].items():
+			if not self.profile["Dataports"][name]["variableName"]:
+				self.profile["Dataports"][name]["variableName"] = name
+			self.profile["Dataports"][name]["variableName"] = re.sub(r'\W+','',self.profile["Dataports"][name]["variableName"].replace(' ', '_'))
+			if "Action" not in ary:
+				self.profile['Dataports'][name]['Action'] = 'onExecute'
+		# model class
+		self.profile['Objects']['model'] = self.profile['Code']['classname']
+	
+	def codeGen(self, tgtdir, modename):
+		self.profileReduct()
+		tmplsdir2 = tmplsdir
+		filesdir2 = filesdir
+		
+		# tgtdirの末尾の/を削除
+		tgtdir = tgtdir.rstrip("/")
+		# 指定されたソースと生成するソースでファイル名が同じ場合の対処
+		m_name = self.profile['BasicInfo']["name"]
+		m_srcs = [ m_name + ".cpp", m_name + "Comp.cpp" ]
+		m_hdrs = [ m_name + ".h" ]
+		num = 0
+		for s_src in self.profile['Code']['srcs']:
+			base_s_src = os.path.basename(s_src)
+			if base_s_src in m_srcs:
+				root, ext = os.path.splitext(base_s_src)
+				self.add_code['srcs'][s_src] = root + str(num) + ext
+				num += 1
+			else:
+				self.add_code['srcs'][s_src] = base_s_src
+				m_srcs.append(base_s_src)
+		num = 0
+		for s_hdr in self.profile['Code']['hdrs']:
+			base_s_hdr = os.path.basename(s_hdr)
+			if base_s_hdr in m_hdrs:
+				root, ext = os.path.splitext(base_s_hdr)
+				self.add_code['hdrs'][s_hdr] = root + str(num) + ext
+				num += 1
+			else:
+				self.add_code['hdrs'][s_hdr] = base_s_hdr
+				m_hdrs.append(base_s_hdr)
+		
+		if modename=="cxx_basic":
+			filesdir2 = filesdir2 + "/cxx_basic"
+			tmplsdir2 = tmplsdir2 + "/cxx_basic"
+			# テンプレートを使用しないファイル群のコピー(ディレクトリの作成含む)
+			shutil.copytree( filesdir2, tgtdir)
+			os.mkdir(tgtdir + "/include/" + m_name)
+			# テンプレートファイルと保存先
+			templates = {
+				".project" : ".project",
+				"rtc.xml" : "RTC.xml",
+				"rtc.conf" : "rtc.conf",
+				"mod.conf" : m_name + ".conf",
+				"readme" : "README." + m_name,
+				"CMakeLists.txt" : "CMakeLists.txt",
+				"doc/doc_en.txt" : "doc/content/index.txt",
+				"doc/doc_ja.txt" : "doc/content/index_j.txt",
+				"src/CMakeLists.txt" : "src/CMakeLists.txt",
+				"include/CMakeLists.txt" : "include/CMakeLists.txt",
+				"include/modCMakeLists.txt" : "include/" + m_name + "/CMakeLists.txt",
+				"src/mod.cpp" : "src/" + m_name + ".cpp",
+				"src/modComp.cpp" : "src/" + m_name + "Comp.cpp",
+				"include/mod.h" : "include/" + m_name + "/" + m_name + ".h",
+				"cmake/mod.pc.in" : "cmake/" + m_name.lower() + ".pc.in",
+				"cmake/mod-config.cmake.in" : "cmake/" + m_name.lower() + "-config.cmake.in",
+				"cmake/mod-config-version.cmake.in" : "cmake/" + m_name.lower() + "-config-version.cmake.in"
+				}
+			# ソースコピー
+			for cp_from, cp_to in self.add_code['srcs'].items():
+				shutil.copy(cp_from, tgtdir + "/src/" + cp_to)
+			for cp_from, cp_to in self.add_code['hdrs'].items():
+				shutil.copy(cp_from, tgtdir + "/include/" + m_name + "/" + cp_to)
+		elif modename=="cxx_debug":
+			tmplsdir2 = tmplsdir2 + "/cxx_debug"
+			templates = { "debug.cpp" : m_name + "_debug.cpp" }
+		else:
+			print "Unknown error. "+modename
+			sys.exit(-1)
+		# 作成
+		env = Environment(
+			loader = FileSystemLoader(tmplsdir2, encoding='utf8'),
+			autoescape = False
+			)
+		for tmplname, fname in templates.items():
+			fpath = tgtdir + "/" + fname
+			print fpath
+			tmpl = env.get_template(tmplname)
+			with open(fpath, "w") as fout:
+				fout.write(
+					tmpl.render(
+						profile = self.profile,
+						addcode = self.add_code
+						)
+					)
+		return
+#-------------------------------------------------------------------
+# main
+#-------------------------------------------------------------------
+def main():
+	try:
+		opts, args = getopt.getopt(sys.argv[1:], "ohd:", ["dir", "help", "xml=", "debug"])
+	except getopt.GetoptError:
+		print "Error: Invalid option.", getopt.GetoptError
+		usage()
+		sys.exit(-1)
+
+	#if not opts:
+	#	usage()
+	#	sys.exit(-1)
+	
+	xmlfname=""
+	tgtdir=""
+	mode="code"
+	
+	for subopt, subarg in opts:
+		#if subopt == "-v":
+		if subopt in ("-h", "--help"):
+			usage()
+			sys.exit(0)
+		elif subopt in ("-d", "--dir"):
+			tgtdir = subarg
+		elif subopt == "--xml":
+			#xmlfname = subarg
+			print "xml option is not implemented yet."
+			sys.exit(0)
+		elif subopt == "--debug":
+			mode = "debug"
+		elif subopt == "-o":
+			mode = "yaml"
+		else:
+			print "Error: Unknown option.", subopt," ",subarg
+	
+	if len(args) < 1:
+		print "Error: Please specify the configuration file name."
+		usage()
+		sys.exit(-1)
+	
+	configfname = args[0]
+	if not os.path.exists(configfname):
+		print "Error: File not found.", configfname
+		sys.exit(-1)
+	
+	cgen = codeGenerator()
+	cgen.readyaml(configfname)
+	if xmlfname:
+		if not os.path.exists(xmlfname):
+			print "Error: File not found.", xmlfname
+			sys.exit(-1)
+		cgen.readXML(xmlfname)
+		
+	if mode=="code":
+		if not tgtdir:
+			tgtdir = cgen.profile['BasicInfo']['name']
+		if os.path.exists(tgtdir):
+			print "Error: Component's directory already exists. Use --dir option.", tgtdir
+			sys.exit(-1)
+		cgen.codeGen(tgtdir,"cxx_basic")
+	elif mode=="debug":
+		if not tgtdir:
+			tgtdir = "."
+		if not os.path.exists(tgtdir):
+			os.mkdir(tgtdir)
+		cgen.codeGen(tgtdir,"cxx_debug")
+	elif mode=="yaml":
+		cgen.profileReduct()
+		cgen.writeyaml()
+	return
+
+if __name__ == "__main__":
+	main()

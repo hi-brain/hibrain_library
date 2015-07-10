@@ -1,37 +1,40 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
 
-#プロジェクト名
-PROJECT(libhi_convert)
-# リリースビルド用オプション
-SET(CMAKE_C_FLAGS_RELEASE "-Wall -O2")
-# デバッグビルド用オプション
-SET(CMAKE_C_FLAGS_DEBUG "-g")
-# ビルドのタイプはリリース
-SET(CMAKE_BUILD_TYPE Release)
-#MATLAB
-set(MATLAB_INCLUDE_DIRS "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v81/extern/include;") #"${PROJECT_SOURCE_DIR}/MATLAB_DIR;")
-set(MATLAB_LIBRARY_DIRS "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v81/runtime/glnxa64;" "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v81/bin/glnxa64;")
-set(matlib libmwmclmcrrt.so)
-if (DEFINED MATLAB_INCLUDE_DIRS)
-  string(REGEX REPLACE "-I" ";"
-    MATLAB_INCLUDE_DIRS "${MATLAB_INCLUDE_DIRS}")
-  string(REGEX REPLACE " ;" ";"
-    MATLAB_INCLUDE_DIRS "${MATLAB_INCLUDE_DIRS}")
-endif (DEFINED MATLAB_INCLUDE_DIRS)
-if (DEFINED MATLAB_LIBRARY_DIRS)
-  string(REGEX REPLACE "-L" ";"
-    MATLAB_LIBRARY_DIRS "${MATLAB_LIBRARY_DIRS}")
-  string(REGEX REPLACE " ;" ";"
-    MATLAB_LIBRARY_DIRS "${MATLAB_LIBRARY_DIRS}")
-endif (DEFINED MATLAB_LIBRARY_DIRS)
-if (DEFINED matlib)
-  string(REGEX REPLACE "-l" ";"
-    matlib "${matlib}")
-  string(REGEX REPLACE " ;" ";"
-    matlib "${matlib}")
-endif (DEFINED matlib)
+PROJECT(libhi_convert)                  #プロジェクト名
+SET(CMAKE_C_FLAGS_RELEASE "-Wall -O2")  # リリースビルド用オプション
+SET(CMAKE_C_FLAGS_DEBUG "-g")           # デバッグビルド用オプション
+SET(CMAKE_BUILD_TYPE Release)           # ビルドのタイプはリリース
 
-set(comp_srcs hi_convert.cpp )
+option(USE_MATLAB_RUNTIME "USE MATLAB LIBRARIES" ON)
+
+IF(USE_MATLAB_RUNTIME)  #MATLAB
+  set(MATLAB_INCLUDE_DIRS "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v81/extern/include;") #"${PROJECT_SOURCE_DIR}/MATLAB_DIR;")
+  set(MATLAB_LIBRARY_DIRS "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v81/runtime/glnxa64;" "/usr/local/MATLAB/MATLAB_Compiler_Runtime/v81/bin/glnxa64;")
+  set(matlib libmwmclmcrrt.so)
+  if (DEFINED MATLAB_INCLUDE_DIRS)
+    string(REGEX REPLACE "-I" ";"
+      MATLAB_INCLUDE_DIRS "${MATLAB_INCLUDE_DIRS}")
+    string(REGEX REPLACE " ;" ";"
+      MATLAB_INCLUDE_DIRS "${MATLAB_INCLUDE_DIRS}")
+  endif (DEFINED MATLAB_INCLUDE_DIRS)
+  if (DEFINED MATLAB_LIBRARY_DIRS)
+    string(REGEX REPLACE "-L" ";"
+      MATLAB_LIBRARY_DIRS "${MATLAB_LIBRARY_DIRS}")
+    string(REGEX REPLACE " ;" ";"
+      MATLAB_LIBRARY_DIRS "${MATLAB_LIBRARY_DIRS}")
+  endif (DEFINED MATLAB_LIBRARY_DIRS)
+  if (DEFINED matlib)
+    string(REGEX REPLACE "-l" ";"
+      matlib "${matlib}")
+    string(REGEX REPLACE " ;" ";"
+      matlib "${matlib}")
+  endif (DEFINED matlib)
+  include_directories(${MATLAB_INCLUDE_DIRS})
+  link_directories(${MATLAB_LIBRARY_DIRS})
+ENDIF()
+
+set(comp_srcs src/hi_convert.cpp src/hi_matviewer.cpp src/hi_matviewer3d.cpp)
+set(comp_hdrs include/hi_convert.h include/hi_model_template.h include/hi_viewer_template.h include/hi_matviewer.h include/hi_matviewer3d.h)
 # バージョン番号
 SET(serial "1.0.0")
 # 共有ライブラリのバージョン番号
@@ -71,20 +74,23 @@ if (DEFINED OPENRTM_LIBRARIES)
 endif (DEFINED OPENRTM_LIBRARIES)
 
 # ビルドするためにインクルードするヘッダーファイルの場所
-INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}")
+INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
 include_directories(${OPENRTM_INCLUDE_DIRS})
 include_directories(${OMNIORB_INCLUDE_DIRS})
-include_directories(${MATLAB_INCLUDE_DIRS})
+
 add_definitions(${OPENRTM_CFLAGS})
 add_definitions(${OMNIORB_CFLAGS})
 
 link_directories(${OPENRTM_LIBRARY_DIRS})
 link_directories(${OMNIORB_LIBRARY_DIRS})
-link_directories(${MATLAB_LIBRARY_DIRS})
 
-ADD_LIBRARY(${LIB_NAME} SHARED ${comp_srcs} hi_convert.h)
-target_link_libraries(${LIB_NAME} ${OPENRTM_LIBRARIES} ${OpenCV_LIBS} ${matlib})
+ADD_LIBRARY(${LIB_NAME} SHARED ${comp_srcs} ${comp_hdrs})
 
+IF(USE_MATLAB_RUNTIME)
+  target_link_libraries(${LIB_NAME} ${OPENRTM_LIBRARIES} ${OpenCV_LIBS} ${matlib})
+ELSE(USE_MATLAB_RUNTIME)
+  target_link_libraries(${LIB_NAME} ${OPENRTM_LIBRARIES} ${OpenCV_LIBS})
+ENDIF()
 # バージョン番号の適用
 SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES VERSION ${serial} SOVERSION ${soserial})
 
@@ -96,4 +102,4 @@ SET_TARGET_PROPERTIES(${LIB_NAME} PROPERTIES VERSION ${serial} SOVERSION ${soser
 INSTALL(TARGETS ${LIB_NAME} LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/hi-brain/lib)
 # 共有ライブラリ用ヘッダーファイルのインストール指定
 # INSTALL(FILES ファイル DESTINATION インストール先)
-INSTALL(FILES ${LIB_NAME}.h DESTINATION ${CMAKE_INSTALL_PREFIX}/hi-brain/include)
+INSTALL(FILES ${comp_hdrs} DESTINATION ${CMAKE_INSTALL_PREFIX}/hi-brain/include)

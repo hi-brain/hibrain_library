@@ -35,19 +35,25 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# Escaping for special characters.
+EQUALS = =
+
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hi-brain/workspace/hi_convert
+CMAKE_SOURCE_DIR = /home/hi-brain/libhi_convert
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hi-brain/workspace/hi_convert
+CMAKE_BINARY_DIR = /home/hi-brain/libhi_convert
 
 #=============================================================================
 # Targets provided globally by CMake.
 
 # Special rule for the target edit_cache
 edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
-	/usr/bin/cmake -i .
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake cache editor..."
+	/usr/bin/ccmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -107,9 +113,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hi-brain/workspace/hi_convert/CMakeFiles /home/hi-brain/workspace/hi_convert/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hi-brain/libhi_convert/CMakeFiles /home/hi-brain/libhi_convert/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/hi-brain/workspace/hi_convert/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/hi-brain/libhi_convert/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -149,29 +155,77 @@ hi_convert/fast:
 	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/build
 .PHONY : hi_convert/fast
 
-hi_convert.o: hi_convert.cpp.o
-.PHONY : hi_convert.o
+src/hi_convert.o: src/hi_convert.cpp.o
+.PHONY : src/hi_convert.o
 
 # target to build an object file
-hi_convert.cpp.o:
-	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/hi_convert.cpp.o
-.PHONY : hi_convert.cpp.o
+src/hi_convert.cpp.o:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o
+.PHONY : src/hi_convert.cpp.o
 
-hi_convert.i: hi_convert.cpp.i
-.PHONY : hi_convert.i
+src/hi_convert.i: src/hi_convert.cpp.i
+.PHONY : src/hi_convert.i
 
 # target to preprocess a source file
-hi_convert.cpp.i:
-	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/hi_convert.cpp.i
-.PHONY : hi_convert.cpp.i
+src/hi_convert.cpp.i:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_convert.cpp.i
+.PHONY : src/hi_convert.cpp.i
 
-hi_convert.s: hi_convert.cpp.s
-.PHONY : hi_convert.s
+src/hi_convert.s: src/hi_convert.cpp.s
+.PHONY : src/hi_convert.s
 
 # target to generate assembly for a file
-hi_convert.cpp.s:
-	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/hi_convert.cpp.s
-.PHONY : hi_convert.cpp.s
+src/hi_convert.cpp.s:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_convert.cpp.s
+.PHONY : src/hi_convert.cpp.s
+
+src/hi_matviewer.o: src/hi_matviewer.cpp.o
+.PHONY : src/hi_matviewer.o
+
+# target to build an object file
+src/hi_matviewer.cpp.o:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o
+.PHONY : src/hi_matviewer.cpp.o
+
+src/hi_matviewer.i: src/hi_matviewer.cpp.i
+.PHONY : src/hi_matviewer.i
+
+# target to preprocess a source file
+src/hi_matviewer.cpp.i:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.i
+.PHONY : src/hi_matviewer.cpp.i
+
+src/hi_matviewer.s: src/hi_matviewer.cpp.s
+.PHONY : src/hi_matviewer.s
+
+# target to generate assembly for a file
+src/hi_matviewer.cpp.s:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.s
+.PHONY : src/hi_matviewer.cpp.s
+
+src/hi_matviewer3d.o: src/hi_matviewer3d.cpp.o
+.PHONY : src/hi_matviewer3d.o
+
+# target to build an object file
+src/hi_matviewer3d.cpp.o:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o
+.PHONY : src/hi_matviewer3d.cpp.o
+
+src/hi_matviewer3d.i: src/hi_matviewer3d.cpp.i
+.PHONY : src/hi_matviewer3d.i
+
+# target to preprocess a source file
+src/hi_matviewer3d.cpp.i:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.i
+.PHONY : src/hi_matviewer3d.cpp.i
+
+src/hi_matviewer3d.s: src/hi_matviewer3d.cpp.s
+.PHONY : src/hi_matviewer3d.s
+
+# target to generate assembly for a file
+src/hi_matviewer3d.cpp.s:
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.s
+.PHONY : src/hi_matviewer3d.cpp.s
 
 # Help Target
 help:
@@ -186,9 +240,15 @@ help:
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... hi_convert.o"
-	@echo "... hi_convert.i"
-	@echo "... hi_convert.s"
+	@echo "... src/hi_convert.o"
+	@echo "... src/hi_convert.i"
+	@echo "... src/hi_convert.s"
+	@echo "... src/hi_matviewer.o"
+	@echo "... src/hi_matviewer.i"
+	@echo "... src/hi_matviewer.s"
+	@echo "... src/hi_matviewer3d.o"
+	@echo "... src/hi_matviewer3d.i"
+	@echo "... src/hi_matviewer3d.s"
 .PHONY : help
 
 

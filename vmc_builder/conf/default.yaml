@@ -1,0 +1,32 @@
+lang: C++
+project:
+BasicInfo:
+  name: noname
+  vendor: unknown
+  category: Category
+  version: "1.0.0"
+  type: 
+  updateDate: 
+  creationDate: 
+  maxInstances: "1"
+  executionType: PeriodicExecutionContext
+  executionRate: "1000.0"
+  description: 
+  componentKind: DataFlowComponent
+  activityType: PERIODIC
+  componentType: STATIC
+Actions: 
+  onInitialize: "true"
+  onFinalize: "false"
+  onStartup: "false"
+  onShutdown: "false"
+  onActivated: "true"
+  onDeactivated: "true"
+  onAborting: "false"
+  onError: "false"
+  onReset: "false"
+  onExecute: "true"
+  onStateUpdate: "false"
+  onRateChanged: "false"
+  onAction: "false"
+  onModeChanged: "false"

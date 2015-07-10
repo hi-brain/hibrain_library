@@ -2,3 +2,7 @@
 /usr/local/hi-brain/lib/libhi_convert.so.1
 /usr/local/hi-brain/lib/libhi_convert.so
 /usr/local/hi-brain/include/hi_convert.h
+/usr/local/hi-brain/include/hi_model_template.h
+/usr/local/hi-brain/include/hi_viewer_template.h
+/usr/local/hi-brain/include/hi_matviewer.h
+/usr/local/hi-brain/include/hi_matviewer3d.h

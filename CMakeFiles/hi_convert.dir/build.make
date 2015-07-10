@@ -31,11 +31,17 @@ CMAKE_COMMAND = /usr/bin/cmake
 # The command to remove a file.
 RM = /usr/bin/cmake -E remove -f
 
+# Escaping for special characters.
+EQUALS = =
+
+# The program to use to edit the cache.
+CMAKE_EDIT_COMMAND = /usr/bin/ccmake
+
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hi-brain/workspace/hi_convert
+CMAKE_SOURCE_DIR = /home/hi-brain/libhi_convert
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hi-brain/workspace/hi_convert
+CMAKE_BINARY_DIR = /home/hi-brain/libhi_convert
 
 # Include any dependencies generated for this target.
 include CMakeFiles/hi_convert.dir/depend.make
@@ -46,56 +52,121 @@ include CMakeFiles/hi_convert.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/hi_convert.dir/flags.make
 
-CMakeFiles/hi_convert.dir/hi_convert.cpp.o: CMakeFiles/hi_convert.dir/flags.make
-CMakeFiles/hi_convert.dir/hi_convert.cpp.o: hi_convert.cpp
-	$(CMAKE_COMMAND) -E cmake_progress_report /home/hi-brain/workspace/hi_convert/CMakeFiles $(CMAKE_PROGRESS_1)
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/hi_convert.dir/hi_convert.cpp.o"
-	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/hi_convert.dir/hi_convert.cpp.o -c /home/hi-brain/workspace/hi_convert/hi_convert.cpp
+CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o: CMakeFiles/hi_convert.dir/flags.make
+CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o: src/hi_convert.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hi-brain/libhi_convert/CMakeFiles $(CMAKE_PROGRESS_1)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o -c /home/hi-brain/libhi_convert/src/hi_convert.cpp
 
-CMakeFiles/hi_convert.dir/hi_convert.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hi_convert.dir/hi_convert.cpp.i"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hi-brain/workspace/hi_convert/hi_convert.cpp > CMakeFiles/hi_convert.dir/hi_convert.cpp.i
+CMakeFiles/hi_convert.dir/src/hi_convert.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hi_convert.dir/src/hi_convert.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hi-brain/libhi_convert/src/hi_convert.cpp > CMakeFiles/hi_convert.dir/src/hi_convert.cpp.i
 
-CMakeFiles/hi_convert.dir/hi_convert.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hi_convert.dir/hi_convert.cpp.s"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hi-brain/workspace/hi_convert/hi_convert.cpp -o CMakeFiles/hi_convert.dir/hi_convert.cpp.s
+CMakeFiles/hi_convert.dir/src/hi_convert.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hi_convert.dir/src/hi_convert.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hi-brain/libhi_convert/src/hi_convert.cpp -o CMakeFiles/hi_convert.dir/src/hi_convert.cpp.s
 
-CMakeFiles/hi_convert.dir/hi_convert.cpp.o.requires:
-.PHONY : CMakeFiles/hi_convert.dir/hi_convert.cpp.o.requires
+CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o.requires:
+.PHONY : CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o.requires
 
-CMakeFiles/hi_convert.dir/hi_convert.cpp.o.provides: CMakeFiles/hi_convert.dir/hi_convert.cpp.o.requires
-	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/hi_convert.cpp.o.provides.build
-.PHONY : CMakeFiles/hi_convert.dir/hi_convert.cpp.o.provides
+CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o.provides: CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o.requires
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o.provides.build
+.PHONY : CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o.provides
 
-CMakeFiles/hi_convert.dir/hi_convert.cpp.o.provides.build: CMakeFiles/hi_convert.dir/hi_convert.cpp.o
+CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o.provides.build: CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o: CMakeFiles/hi_convert.dir/flags.make
+CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o: src/hi_matviewer.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hi-brain/libhi_convert/CMakeFiles $(CMAKE_PROGRESS_2)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o -c /home/hi-brain/libhi_convert/src/hi_matviewer.cpp
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hi-brain/libhi_convert/src/hi_matviewer.cpp > CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.i
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hi-brain/libhi_convert/src/hi_matviewer.cpp -o CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.s
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o.requires:
+.PHONY : CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o.requires
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o.provides: CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o.requires
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o.provides.build
+.PHONY : CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o.provides
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o.provides.build: CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o: CMakeFiles/hi_convert.dir/flags.make
+CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o: src/hi_matviewer3d.cpp
+	$(CMAKE_COMMAND) -E cmake_progress_report /home/hi-brain/libhi_convert/CMakeFiles $(CMAKE_PROGRESS_3)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Building CXX object CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o"
+	/usr/bin/c++   $(CXX_DEFINES) $(CXX_FLAGS) -o CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o -c /home/hi-brain/libhi_convert/src/hi_matviewer3d.cpp
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.i"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -E /home/hi-brain/libhi_convert/src/hi_matviewer3d.cpp > CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.i
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.s"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_FLAGS) -S /home/hi-brain/libhi_convert/src/hi_matviewer3d.cpp -o CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.s
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o.requires:
+.PHONY : CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o.requires
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o.provides: CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o.requires
+	$(MAKE) -f CMakeFiles/hi_convert.dir/build.make CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o.provides.build
+.PHONY : CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o.provides
+
+CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o.provides.build: CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o
 
 # Object files for target hi_convert
 hi_convert_OBJECTS = \
-"CMakeFiles/hi_convert.dir/hi_convert.cpp.o"
+"CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o" \
+"CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o" \
+"CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o"
 
 # External object files for target hi_convert
 hi_convert_EXTERNAL_OBJECTS =
 
-libhi_convert.so.1.0.0: CMakeFiles/hi_convert.dir/hi_convert.cpp.o
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_calib3d.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_contrib.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_core.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_features2d.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_flann.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_gpu.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_highgui.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_imgproc.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_legacy.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_ml.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_nonfree.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_objdetect.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_photo.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_stitching.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_superres.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_ts.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_video.so
-libhi_convert.so.1.0.0: /usr/local/opencv2.4.5/lib/libopencv_videostab.so
+libhi_convert.so.1.0.0: CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o
+libhi_convert.so.1.0.0: CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o
+libhi_convert.so.1.0.0: CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o
 libhi_convert.so.1.0.0: CMakeFiles/hi_convert.dir/build.make
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_videostab.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_video.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_ts.a
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_superres.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_stitching.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_photo.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_ocl.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_objdetect.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_nonfree.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_ml.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_legacy.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_imgproc.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_highgui.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_gpu.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_flann.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_features2d.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_core.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_contrib.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_calib3d.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_nonfree.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_ocl.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_gpu.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_photo.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_objdetect.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_legacy.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_video.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_ml.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_calib3d.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_features2d.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_highgui.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_imgproc.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_flann.so.2.4.10
+libhi_convert.so.1.0.0: /usr/local/opencv2.4.10/lib/libopencv_core.so.2.4.10
 libhi_convert.so.1.0.0: CMakeFiles/hi_convert.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --red --bold "Linking CXX shared library libhi_convert.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/hi_convert.dir/link.txt --verbose=$(VERBOSE)
@@ -109,7 +180,9 @@ libhi_convert.so: libhi_convert.so.1.0.0
 CMakeFiles/hi_convert.dir/build: libhi_convert.so
 .PHONY : CMakeFiles/hi_convert.dir/build
 
-CMakeFiles/hi_convert.dir/requires: CMakeFiles/hi_convert.dir/hi_convert.cpp.o.requires
+CMakeFiles/hi_convert.dir/requires: CMakeFiles/hi_convert.dir/src/hi_convert.cpp.o.requires
+CMakeFiles/hi_convert.dir/requires: CMakeFiles/hi_convert.dir/src/hi_matviewer.cpp.o.requires
+CMakeFiles/hi_convert.dir/requires: CMakeFiles/hi_convert.dir/src/hi_matviewer3d.cpp.o.requires
 .PHONY : CMakeFiles/hi_convert.dir/requires
 
 CMakeFiles/hi_convert.dir/clean:
@@ -117,6 +190,6 @@ CMakeFiles/hi_convert.dir/clean:
 .PHONY : CMakeFiles/hi_convert.dir/clean
 
 CMakeFiles/hi_convert.dir/depend:
-	cd /home/hi-brain/workspace/hi_convert && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hi-brain/workspace/hi_convert /home/hi-brain/workspace/hi_convert /home/hi-brain/workspace/hi_convert /home/hi-brain/workspace/hi_convert /home/hi-brain/workspace/hi_convert/CMakeFiles/hi_convert.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hi-brain/libhi_convert && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hi-brain/libhi_convert /home/hi-brain/libhi_convert /home/hi-brain/libhi_convert /home/hi-brain/libhi_convert /home/hi-brain/libhi_convert/CMakeFiles/hi_convert.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/hi_convert.dir/depend
 
