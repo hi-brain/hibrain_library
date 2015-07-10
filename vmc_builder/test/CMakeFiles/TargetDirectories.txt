@@ -1,6 +1,0 @@
-/home/hi-brain/libhi_convert/vmc_builder/test/idl/CMakeFiles/ALL_IDL_TGT.dir
-/home/hi-brain/libhi_convert/vmc_builder/test/doc/CMakeFiles/doxygen_doc.dir
-/home/hi-brain/libhi_convert/vmc_builder/test/idl/CMakeFiles/hi_brain_TGT.dir
-/home/hi-brain/libhi_convert/vmc_builder/test/CMakeFiles/uninstall.dir
-/home/hi-brain/libhi_convert/vmc_builder/test/src/CMakeFiles/usbcamera.dir
-/home/hi-brain/libhi_convert/vmc_builder/test/src/CMakeFiles/usbcameraComp.dir
