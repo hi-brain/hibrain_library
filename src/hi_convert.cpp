@@ -1,6 +1,6 @@
 #include "hi_convert.h"
 #include <iostream>
-#include "opencv2/opencv.hpp"
+#include <opencv2/opencv.hpp>
 #include <rtm/idl/InterfaceDataTypes.hh>
 #include "hi-brain.hh"
 #if USE_MATLAB_RUNTIME
@@ -94,7 +94,7 @@ cv::Mat operator>>(const mwArray src, cv::Mat& dst)
 		src.GetData((mxInt32*)cv_src.data,src_width*src_height);
 		break;
 
-		// mxUINT32_CLASS, mxINT64_CLASS, mxUINT64_CLASS ‚Í‘Î‰‚·‚éCV‚ÌŒ^‚ª‚È‚¢‚Ì‚Å CV_64F ‚É‰Ÿ‚µ‚Ş
+		// mxUINT32_CLASS, mxINT64_CLASS, mxUINT64_CLASS ï¿½Í‘Î‰ï¿½ï¿½ï¿½ï¿½ï¿½CVï¿½ÌŒ^ï¿½ï¿½ï¿½È‚ï¿½ï¿½Ì‚ï¿½ CV_64F ï¿½É‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	case mxUINT32_CLASS:
 	case mxINT64_CLASS:
 	case mxUINT64_CLASS:
@@ -145,7 +145,7 @@ mwArray operator>>(const cv::Mat src, mwArray& dst){
 	}
 	cv::transpose(src,src_t);
 
-	// ‹ó‚Ìê‡‚Í0,0‚ª“ü‚é
+	// ï¿½ï¿½ï¿½Ìê‡ï¿½ï¿½0,0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	mwArray size = dst.GetDimensions();
 	int dst_height = size.Get(1,1);
 	int dst_width = size.Get(1,2);
@@ -209,11 +209,13 @@ mwArray operator<<(mwArray& dst, const cv::Mat src){
 
 cv::Mat operator>>(const Vision::Matrix src, cv::Mat& dst){
 	int dims[src.div.length()];
-	for(int i=0; i < (int)src.div.length(); ++i) dims[i] = (int) src.div[i]; 
-		
+	for(int i=0; i < (int)src.div.length(); ++i) dims[i] = (int) src.div[i];
+
 	if (dst.empty()){
 		dst.create((int) src.div.length(), dims, src.type);
-	} else if ( dst.size != cv::Mat::MSize(dims) || dst.type() != (int)src.type || dst.total() * dst.elemSize() != src.pixels.length() ){
+	//MSizeè¦æ¤œè¨¼
+	} else if ( dst.type() != (int)src.type || dst.total() * dst.elemSize() != src.pixels.length() ){
+//	} else if ( dst.size != cv::Mat::MSize(dims) || dst.type() != (int)src.type || dst.total() * dst.elemSize() != src.pixels.length() ){
 		dst.release();
 		dst.create(src.div.length(), dims, src.type);
 	}

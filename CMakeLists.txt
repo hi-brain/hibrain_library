@@ -77,6 +77,7 @@ endif (DEFINED OPENRTM_LIBRARIES)
 INCLUDE_DIRECTORIES("${PROJECT_SOURCE_DIR}/include")
 include_directories(${OPENRTM_INCLUDE_DIRS})
 include_directories(${OMNIORB_INCLUDE_DIRS})
+include_directories(${OpenCV_INCLUDE_DIRS})
 
 add_definitions(${OPENRTM_CFLAGS})
 add_definitions(${OMNIORB_CFLAGS})
