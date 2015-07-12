@@ -33,7 +33,7 @@ include_directories(${PROJECT_BINARY_DIR})
 include_directories(${PROJECT_BINARY_DIR}/idl)
 include_directories(${OPENRTM_INCLUDE_DIRS})
 include_directories(${OMNIORB_INCLUDE_DIRS})
-
+include_directories(${OpenCV_INCLUDE_DIRS})
 add_definitions(${OPENRTM_CFLAGS})
 add_definitions(${OMNIORB_CFLAGS})
 
@@ -45,6 +45,7 @@ link_directories(${OMNIORB_LIBRARY_DIRS})
 # MATLAB, hi-brain
 #-----------------------------------------------------------------------
 # MATLAB COMPILER RUNTIME
+IF(USE_MATLAB_RUNTIME)
 IF(WIN32)
 	# Search for a version of Matlab available, starting from the most modern one to older versions
 	FOREACH(MATVER "8.1" "8.0" "7.20" "7.19" "7.18" "7.17" "7.16" "7.15" "7.14" "7.13" "7.12" "7.11" "7.10" "7.9" "7.8" "7.7" "7.6" "7.5" "7.4")
@@ -94,7 +95,7 @@ ELSE( WIN32 )
 			)
 		endif()
 	ENDIF((NOT DEFINED MATLAB_ROOT) OR ("${MATLAB_ROOT}" STREQUAL ""))
-	
+
 	if(CMAKE_SIZEOF_VOID_P EQUAL 4)
 	  # Regular x86
 	  set(MCR_INCLUDE_DIRS "${MATLAB_ROOT}/extern/include;" "${PROJECT_SOURCE_DIR}/MATLAB_DIR;")
@@ -126,14 +127,12 @@ if(MCR_MWMCLMCRRT_LIB)
 else(MCR_MWMCLMCRRT_LIB)
 	message(FATAL_ERROR, "matlab compiler runtime not found")
 endif(MCR_MWMCLMCRRT_LIB)
+ENDIF(USE_MATLAB_RUNTIME)
 
 # HIBRAIN LIBRARIES
 IF(WIN32)
 	find_library(HI_CONVERT_LIB
 	  libhi_convert
-	  )
-	find_library(HI_MODELS_LIB
-	  libhi_models
 	  )
 ELSE( WIN32 )
 	set(HIBRAIN_INCLUDE_DIRS "/usr/local/hi-brain/include;")
@@ -142,15 +141,10 @@ ELSE( WIN32 )
 	  hi_convert
 	  ${HIBRAIN_LIBRARY_DIRS}/
 	  )
-	find_library(HI_MODELS_LIB
-	  hi_models
-	  ${HIBRAIN_LIBRARY_DIRS}/
-	  )
 ENDIF(WIN32)
 if(HI_CONVERT_LIB)
 	set(HI_LIBS
 	  ${HI_CONVERT_LIB}
-	  ${HI_MODELS_LIB}
 	)
 	include_directories(${HIBRAIN_INCLUDE_DIRS})
 	link_directories(${HIBRAIN_LIBRARY_DIRS})
@@ -164,11 +158,19 @@ add_library(${PROJECT_NAME} ${LIB_TYPE} ${comp_srcs}
 set_target_properties(${PROJECT_NAME} PROPERTIES PREFIX "")
 set_source_files_properties(${ALL_IDL_SRCS} PROPERTIES GENERATED 1)
 add_dependencies(${PROJECT_NAME} ALL_IDL_TGT)
-target_link_libraries(${PROJECT_NAME} ${OPENRTM_LIBRARIES} ${OpenCV_LIBS} ${MCR_LIBS} ${HI_LIBS})
+IF(USE_MATLAB_RUNTIME)
+	target_link_libraries(${PROJECT_NAME} ${OPENRTM_LIBRARIES} ${OpenCV_LIBS} ${MCR_LIBS} ${HI_LIBS})
+ELSE(USE_MATLAB_RUNTIME)
+	target_link_libraries(${PROJECT_NAME} ${OPENRTM_LIBRARIES} ${OpenCV_LIBS} ${HI_LIBS})
+ENDIF(USE_MATLAB_RUNTIME)
 
 add_executable(${PROJECT_NAME}Comp ${standalone_srcs}
   ${comp_srcs} ${comp_headers} ${ALL_IDL_SRCS})
-target_link_libraries(${PROJECT_NAME}Comp ${OPENRTM_LIBRARIES} ${OpenCV_LIBS} ${MCR_LIBS} ${HI_LIBS})
+IF(USE_MATLAB_RUNTIME)
+	target_link_libraries(${PROJECT_NAME}Comp ${OPENRTM_LIBRARIES} ${OpenCV_LIBS} ${MCR_LIBS} ${HI_LIBS})
+ELSE(USE_MATLAB_RUNTIME)
+	target_link_libraries(${PROJECT_NAME}Comp ${OPENRTM_LIBRARIES} ${OpenCV_LIBS} ${HI_LIBS})
+ENDIF()
 
 install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}Comp
     EXPORT ${PROJECT_NAME}

@@ -29,7 +29,7 @@
 // Service Consumer stub headers
 // <rtc-template block="consumer_stub_h">
 #include "hi_brainStub.h"
-#include "hi_convert_vision.h"
+#include "hi_convert.h"
 
 // </rtc-template>
 
@@ -57,21 +57,21 @@ class {{ profile['BasicInfo']['name'] }}
   ~{{ profile['BasicInfo']['name'] }}();
 
   // <rtc-template block="public_attribute">
-  
+
   // </rtc-template>
 
   // <rtc-template block="public_operation">
-  
+
   // </rtc-template>
 
   /***
    *
    * The initialize action (on CREATED->ALIVE transition)
-   * formaer rtc_init_entry() 
+   * formaer rtc_init_entry()
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onInitialize'] == "true" %}
    virtual RTC::ReturnCode_t onInitialize();
@@ -85,8 +85,8 @@ class {{ profile['BasicInfo']['name'] }}
    * formaer rtc_exiting_entry()
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onFinalize'] == "true" %}
    virtual RTC::ReturnCode_t onFinalize();
@@ -102,8 +102,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onStartup'] == "true" %}
    virtual RTC::ReturnCode_t onStartup(RTC::UniqueId ec_id);
@@ -118,8 +118,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onShutdown'] == "true" %}
    virtual RTC::ReturnCode_t onShutdown(RTC::UniqueId ec_id);
@@ -135,8 +135,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onActivated'] == "true" %}
    virtual RTC::ReturnCode_t onActivated(RTC::UniqueId ec_id);
@@ -152,8 +152,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onDeactivated'] == "true" %}
    virtual RTC::ReturnCode_t onDeactivated(RTC::UniqueId ec_id);
@@ -169,8 +169,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onExecute'] == "true" %}
    virtual RTC::ReturnCode_t onExecute(RTC::UniqueId ec_id);
@@ -186,8 +186,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onAborting'] == "true" %}
    virtual RTC::ReturnCode_t onAborting(RTC::UniqueId ec_id);
@@ -203,8 +203,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onError'] == "true" %}
    virtual RTC::ReturnCode_t onError(RTC::UniqueId ec_id);
@@ -220,15 +220,15 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onReset'] == "true" %}
    virtual RTC::ReturnCode_t onReset(RTC::UniqueId ec_id);
 {%- else %}
   // virtual RTC::ReturnCode_t onReset(RTC::UniqueId ec_id);
 {%- endif %}
-  
+
   /***
    *
    * The state update action that is invoked after onExecute() action
@@ -237,8 +237,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onStateUpdate'] == "true" %}
    virtual RTC::ReturnCode_t onStateUpdate(RTC::UniqueId ec_id);
@@ -254,8 +254,8 @@ class {{ profile['BasicInfo']['name'] }}
    * @param ec_id target ExecutionContext Id
    *
    * @return RTC::ReturnCode_t
-   * 
-   * 
+   *
+   *
    */
 {%- if profile['Actions']['onRateChanged'] == "true" %}
    virtual RTC::ReturnCode_t onRateChanged(RTC::UniqueId ec_id);
@@ -266,11 +266,11 @@ class {{ profile['BasicInfo']['name'] }}
 
  protected:
   // <rtc-template block="protected_attribute">
-  
+
   // </rtc-template>
 
   // <rtc-template block="protected_operation">
-  
+
   // </rtc-template>
 
   // Configuration variable declaration
@@ -299,17 +299,17 @@ class {{ profile['BasicInfo']['name'] }}
 
   // CORBA Port declaration
   // <rtc-template block="corbaport_declare">
-  
+
   // </rtc-template>
 
   // Service declaration
   // <rtc-template block="service_declare">
-  
+
   // </rtc-template>
 
   // Consumer declaration
   // <rtc-template block="consumer_declare">
-  
+
   // </rtc-template>
 {%- for name, ary in profile["Dataports"].items() %}
   {{ ary['type'] }} m_{{ ary['variableName'] }};
@@ -320,11 +320,11 @@ class {{ profile['BasicInfo']['name'] }}
   bool fflg;
  private:
   // <rtc-template block="private_attribute">
-  
+
   // </rtc-template>
 
   // <rtc-template block="private_operation">
-  
+
   // </rtc-template>
 
 };

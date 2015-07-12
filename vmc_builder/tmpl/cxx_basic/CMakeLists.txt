@@ -1,4 +1,7 @@
 cmake_minimum_required(VERSION 2.8 FATAL_ERROR)
+if(POLICY CMP0048)
+  cmake_policy(SET CMP0048 OLD)
+endif()
 
 project({{ profile['project'] }})
 string(TOLOWER ${PROJECT_NAME} PROJECT_NAME_LOWER)
@@ -15,6 +18,8 @@ CONFIGURE_FILE ("${PROJECT_SOURCE_DIR}/cmake/uninstall_target.cmake.in"
     "${PROJECT_BINARY_DIR}/uninstall_target.cmake" IMMEDIATE @ONLY)
 ADD_CUSTOM_TARGET (uninstall "${CMAKE_COMMAND}" -P
     "${PROJECT_BINARY_DIR}/uninstall_target.cmake")
+
+option(USE_MATLAB_RUNTIME "USE MATLAB LIBRARIES" ON)
 
 #option(BUILD_EXAMPLES "Build and install examples" OFF)
 option(BUILD_DOCUMENTATION "Build the documentation" ON)
@@ -105,5 +110,3 @@ configure_file("${PROJECT_SOURCE_DIR}/cmake/cpack_options.cmake.in"
 set(CPACK_PROJECT_CONFIG_FILE ${cpack_options})
 include(${CPACK_PROJECT_CONFIG_FILE})
 include(CPack)
-
-
