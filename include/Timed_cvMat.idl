@@ -1,0 +1,32 @@
+#ifndef Timed_cvMat_idl
+#define Timed_cvMat_idl
+
+#include "BasicDataType.idl"
+
+module RTC
+{
+
+struct cvMat
+{
+	string data_type;
+	long   mat_type;
+	unsigned short  width;
+	unsigned short  height;
+	unsigned short  bpp;
+	boolean is_shared;
+	string name;
+	long   memory_index;
+	long   length;
+	sequence<octet> data;
+};
+
+
+struct Timed_cvMat
+{
+	RTC::Time  tm;
+	RTC::cvMat data;
+};
+
+};
+
+#endif //TimedMemory_idl
