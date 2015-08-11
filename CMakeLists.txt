@@ -33,8 +33,8 @@ IF(USE_MATLAB_RUNTIME)  #MATLAB
   link_directories(${MATLAB_LIBRARY_DIRS})
 ENDIF()
 
-set(comp_srcs src/hi_convert.cpp src/hi_matviewer.cpp src/hi_matviewer3d.cpp)
-set(comp_hdrs include/hi_convert.h include/hi_model_template.h include/hi_viewer_template.h include/hi_matviewer.h include/hi_matviewer3d.h)
+set(comp_srcs src/hi_convert.cpp src/hi_matviewer.cpp src/hi_matviewer3d.cpp src/SharedMemory.cpp)
+set(comp_hdrs include/hi_convert.h include/hi_model_template.h include/hi_viewer_template.h include/hi_matviewer.h include/hi_matviewer3d.h include/SharedMemory.h)
 # バージョン番号
 SET(serial "1.0.0")
 # 共有ライブラリのバージョン番号

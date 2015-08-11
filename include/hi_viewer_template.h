@@ -27,7 +27,10 @@ namespace hi{
 					this->prev = curr;
 				}
 				if(curr != 0){
-					cv::namedWindow(this->wname, CV_WINDOW_AUTOSIZE|CV_GUI_NORMAL);
+					//cv::namedWindow(this->wname, CV_WINDOW_AUTOSIZE|CV_GUI_NORMAL);
+					#if (!defined WIN32) || (!defined WIN64)
+			        	cvStartWindowThread();
+				    #endif
 					this->show();
 					cv::waitKey(1);
 				}
