@@ -5,12 +5,13 @@ SET(CMAKE_C_FLAGS_RELEASE "-Wall -O2")  # リリースビルド用オプショ�
 SET(CMAKE_C_FLAGS_DEBUG "-g")           # デバッグビルド用オプション
 SET(CMAKE_BUILD_TYPE Release)           # ビルドのタイプはリリース
 option(USE_MATLAB_RUNTIME "USE MATLAB LIBRARIES" ON)
-SET(MATLAB_RUNTIME_PATH /usr/local/MATLAB/MATLAB_Runtime/v90 CACHE PATH "MATLAB RUNTIME VERSION SET")
+
+#SET(MATLAB_RUNTIME_PATH /usr/local/MATLAB/MATLAB_Runtime/v90 CACHE PATH "MATLAB RUNTIME VERSION SET")
 
 IF(USE_MATLAB_RUNTIME)  #MATLAB
-  message(STATUS "${MATLAB_RUNTIME_PATH}")
-  set(MATLAB_INCLUDE_DIRS "${MATLAB_RUNTIME_PATH}/extern/include;") #"${PROJECT_SOURCE_DIR}/MATLAB_DIR;")
-  set(MATLAB_LIBRARY_DIRS "${MATLAB_RUNTIME_PATH}/runtime/glnxa64;" "${MATLAB_RUNTIME_PATH}/bin/glnxa64;")
+  message(STATUS "$ENV{MATLAB_RUNTIME_PATH}")
+  set(MATLAB_INCLUDE_DIRS "$ENV{MATLAB_RUNTIME_PATH}/extern/include;") #"${PROJECT_SOURCE_DIR}/MATLAB_DIR;")
+  set(MATLAB_LIBRARY_DIRS "$ENV{MATLAB_RUNTIME_PATH}/runtime/glnxa64;" "$ENV{MATLAB_RUNTIME_PATH}/bin/glnxa64;")
   set(matlib libmwmclmcrrt.so)
   if (DEFINED MATLAB_INCLUDE_DIRS)
     string(REGEX REPLACE "-I" ";"
