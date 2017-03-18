@@ -51,7 +51,6 @@
   
 2. ライブラリのインストール
 
-
 	* MATLAB Compiler Runtime(mwArray)を使用する場合
 
 		事前に環境変数MATLAB_RUNTIME_PATHを追加する必要がある．
@@ -60,7 +59,8 @@
 		cmake .
 		make
 		sudo make install
-  	```
+  	        ```
+		
 	* MATLAB Compiler Runtime(mwArray)を使用しない場合
 		```
 		cmake -D USE_MATLAB_RUNTIME=OFF .
