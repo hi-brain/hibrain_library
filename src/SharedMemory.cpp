@@ -113,7 +113,7 @@ namespace USM
 //			m_shared_memory = boost::interprocess::managed_windows_shared_memory( boost::interprocess::create_only, m_memory_name.c_str(), m_buffer_size*(m_idx_num+1) );
 			m_shared_memory = boost::interprocess::managed_shared_memory( boost::interprocess::create_only, m_memory_name.c_str(), m_buffer_size*(m_idx_num+1) );
 
-			for ( int i=0; i<(signed)m_idx_num; i++ ) 
+			for ( int i=0; i<(signed)m_idx_num; i++ )
 			{
 				std::string idx_name = createIndex(i);
 				unsigned char* data = m_shared_memory.construct<unsigned char>(idx_name.c_str())[m_buffer_size]();
