@@ -19,7 +19,7 @@ namespace RTC {
 
 namespace USM
 {
-	
+
 	class OnConnectedListener : public RTC::ConnectorListener
 	{
 	private:
